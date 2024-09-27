@@ -16,8 +16,8 @@ class CultivatedPlants {
     required this.categories,
     required this.title,
     required this.imageUrl,
-    required this.preparations,
-    required this.steps,
+    required this.efficacy,
+    required this.benefits,
     required this.duration,
     required this.complexity,
     required this.seedPrice,
@@ -27,11 +27,11 @@ class CultivatedPlants {
   });
 
   final String id;
-  final String categories;
+  final List<String> categories;
   final String title;
   final String imageUrl;
-  final List<String> preparations;
-  final List<String> steps;
+  final List<String> efficacy;
+  final List<String> benefits;
   final int duration;
   final Complexity complexity;
   final SeedPrice seedPrice;
