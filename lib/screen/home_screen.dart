@@ -1,3 +1,4 @@
+import 'package:cultivated_plants_app/screen/categories_screen.dart';
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatefulWidget
@@ -19,16 +20,20 @@ class _HomeScreenState extends State<HomeScreen>
 
   void selectedPage(int index)
   {
-    _selectedScreenIndex = index;
+    setState(() {
+      _selectedScreenIndex = index;
+    });
   }
 
   @override
   Widget build(BuildContext context) {
+    Widget activeScreen = const CategoriesScreen();
+
     return Scaffold(
       appBar: AppBar(
         title: Text(activePageTitle),
       ),
-      body: const Text("Halaman"),
+      body: activeScreen,
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _selectedScreenIndex,
         onTap: (index) {

@@ -1,15 +1,28 @@
 import 'package:cultivated_plants_app/data/dummy_data.dart';
+import 'package:cultivated_plants_app/screen/plants_screen.dart';
 import 'package:cultivated_plants_app/widget/category_grid_item.dart';
-// import 'package:cultivated_plants_app/model/category.dart';
+import 'package:cultivated_plants_app/model/category.dart';
 import 'package:flutter/material.dart';
 
 class CategoriesScreen extends StatelessWidget {
   const CategoriesScreen({super.key});
 
-  // void _selectedCategoryItem(BuildContext context, Category category)
-  // {
-  //   final fliteredPlants = dummyCultivatedPlants.where((plant) => plant.categories.contains(category.id),).toList();
-  // }
+  void _selectedCategoryItem(BuildContext context, Category category) {
+    final filteredPlants = dummyCultivatedPlants
+        .where(
+          (plant) => plant.categories.contains(category.id),
+        )
+        .toList();
+
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (ctx) => PlantsScreen(
+          cultivatedPlants: filteredPlants,
+          title: category.title,
+        ),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -22,8 +35,10 @@ class CategoriesScreen extends StatelessWidget {
         mainAxisSpacing: 20,
       ),
       children: [
-        for (final category in availableCategories) 
-          CategoryGridItem(category: category, onSelectedItem: () {})
+        for (final category in availableCategories)
+          CategoryGridItem(category: category, onSelectedItem: () {
+            _selectedCategoryItem(context, category);
+          })
       ],
     );
   }
