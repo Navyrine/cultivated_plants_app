@@ -1,4 +1,4 @@
-import 'package:cultivated_plants_app/screen/home_screen.dart';
+import 'package:cultivated_plants_app/screen/categories_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -20,7 +20,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: theme,
-      home: const HomeScreen(),
+      home: const CategoriesScreen(),
     );
   }
 }
