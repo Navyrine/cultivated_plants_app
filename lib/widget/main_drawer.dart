@@ -20,7 +20,7 @@ class MainDrawer extends StatelessWidget {
             child: Row(
               children: [
                 Icon(
-                  Icons.fastfood,
+                  Icons.compost,
                   size: 48,
                   color: Theme.of(context).colorScheme.primary,
                 ),
@@ -40,7 +40,7 @@ class MainDrawer extends StatelessWidget {
               onSelectedFilter("plants");
             },
             leading: Icon(
-              Icons.restaurant,
+              Icons.yard,
               size: 26,
               color: Theme.of(context).colorScheme.onBackground,
             ),
