@@ -1,4 +1,5 @@
 import 'package:cultivated_plants_app/screen/categories_screen.dart';
+import 'package:cultivated_plants_app/widget/main_drawer.dart';
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatefulWidget
@@ -25,6 +26,14 @@ class _HomeScreenState extends State<HomeScreen>
     });
   }
 
+  void _selectedFilterScreen(String identifier) async
+  {
+    Navigator.of(context).pop();
+    if (identifier == "filters") {
+      print("filters");
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     Widget activeScreen = const CategoriesScreen();
@@ -34,6 +43,7 @@ class _HomeScreenState extends State<HomeScreen>
         title: Text(activePageTitle),
       ),
       body: activeScreen,
+      drawer: MainDrawer(onSelectedFilter: _selectedFilterScreen),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _selectedScreenIndex,
         onTap: (index) {
