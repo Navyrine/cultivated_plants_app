@@ -4,9 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:transparent_image/transparent_image.dart';
 
 class PlantsItem extends StatelessWidget {
-  const PlantsItem({super.key, required this.plant});
+  const PlantsItem({super.key, required this.plant, required this.onSelectedPlant});
 
   final CultivatedPlants plant;
+  final void Function(CultivatedPlants plants) onSelectedPlant;
 
   String get complexityText {
     return plant.complexity.name[0].toUpperCase() +
@@ -26,7 +27,7 @@ class PlantsItem extends StatelessWidget {
       clipBehavior: Clip.hardEdge,
       elevation: 2,
       child: InkWell(
-        onTap: () {},
+        onTap: () {onSelectedPlant(plant);},
         child: Stack(
           children: [
             FadeInImage(
