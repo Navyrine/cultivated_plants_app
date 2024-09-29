@@ -16,14 +16,13 @@ class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
   @override
-  State<StatefulWidget> createState() {
+  State<HomeScreen> createState() {
     return _HomeScreenState();
   }
 }
 
 class _HomeScreenState extends State<HomeScreen> {
   int _selectedScreenIndex = 0;
-  var activePageTitle = "Categories";
   Map<Filter, bool> _selectedFilters = kInitialFilter;
   final List<CultivatedPlants> _favoritePlant = [];
 
@@ -36,15 +35,16 @@ class _HomeScreenState extends State<HomeScreen> {
   void _selectedFilterScreen(String identifier) async {
     Navigator.of(context).pop();
     if (identifier == "filters") {
-      final result =
-          await Navigator.of(context).push<Map<Filter, bool>>(MaterialPageRoute(
-        builder: (ctx) => FilterScreen(currentFilter: _selectedFilters),
-      ));
-
+      final result = await Navigator.of(context).push<Map<Filter, bool>>(
+        MaterialPageRoute(
+          builder: (ctx) => FilterScreen(currentFilter: _selectedFilters),
+        ),
+      );
       setState(() {
         _selectedFilters = result ?? kInitialFilter;
       });
     }
+    
   }
 
   void _showMessageFavorite(String text) {
@@ -88,9 +88,11 @@ class _HomeScreenState extends State<HomeScreen> {
     }).toList();
 
     Widget activeScreen = CategoriesScreen(
-      availableFilterPlants: availableFilterPlants,
       onToogleFavorite: _toogleFavorite,
+      availableFilterPlants: availableFilterPlants,
     );
+
+    var activePageTitle = "Categories";
 
     if (_selectedScreenIndex == 1) {
       activeScreen = PlantsScreen(

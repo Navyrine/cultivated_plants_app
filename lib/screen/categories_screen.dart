@@ -12,7 +12,7 @@ class CategoriesScreen extends StatelessWidget {
   final void Function(CultivatedPlants plant) onToogleFavorite;
 
   void _selectedCategoryItem(BuildContext context, Category category) {
-    final filteredPlants = dummyCultivatedPlants
+    final filteredPlants = availableFilterPlants
         .where(
           (plant) => plant.categories.contains(category.id),
         )
