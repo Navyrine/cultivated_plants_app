@@ -1,11 +1,14 @@
 import 'package:cultivated_plants_app/data/dummy_data.dart';
+import 'package:cultivated_plants_app/model/cultivated_plants.dart';
 import 'package:cultivated_plants_app/screen/plants_screen.dart';
 import 'package:cultivated_plants_app/widget/category_grid_item.dart';
 import 'package:cultivated_plants_app/model/category.dart';
 import 'package:flutter/material.dart';
 
 class CategoriesScreen extends StatelessWidget {
-  const CategoriesScreen({super.key});
+  const CategoriesScreen({super.key, required this.availableFilterPlants});
+
+  final List<CultivatedPlants> availableFilterPlants;
 
   void _selectedCategoryItem(BuildContext context, Category category) {
     final filteredPlants = dummyCultivatedPlants
