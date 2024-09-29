@@ -6,9 +6,10 @@ import 'package:cultivated_plants_app/model/category.dart';
 import 'package:flutter/material.dart';
 
 class CategoriesScreen extends StatelessWidget {
-  const CategoriesScreen({super.key, required this.availableFilterPlants});
+  const CategoriesScreen({super.key, required this.availableFilterPlants, required this.onToogleFavorite});
 
   final List<CultivatedPlants> availableFilterPlants;
+  final void Function(CultivatedPlants plant) onToogleFavorite;
 
   void _selectedCategoryItem(BuildContext context, Category category) {
     final filteredPlants = dummyCultivatedPlants
@@ -22,6 +23,7 @@ class CategoriesScreen extends StatelessWidget {
         builder: (ctx) => PlantsScreen(
           cultivatedPlants: filteredPlants,
           title: category.title,
+          onToogleFavorite: onToogleFavorite,
         ),
       ),
     );
