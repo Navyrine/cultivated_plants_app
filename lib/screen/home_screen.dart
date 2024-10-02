@@ -1,10 +1,11 @@
-import 'package:cultivated_plants_app/data/dummy_data.dart';
 import 'package:cultivated_plants_app/model/cultivated_plants.dart';
+import 'package:cultivated_plants_app/provider/meals_provider.dart';
 import 'package:cultivated_plants_app/screen/categories_screen.dart';
 import 'package:cultivated_plants_app/screen/filter_screen.dart';
 import 'package:cultivated_plants_app/screen/plants_screen.dart';
 import 'package:cultivated_plants_app/widget/main_drawer.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 const kInitialFilter = {
   Filter.humus: false,
@@ -12,16 +13,16 @@ const kInitialFilter = {
   Filter.volcanic: false
 };
 
-class HomeScreen extends StatefulWidget {
+class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({super.key});
 
   @override
-  State<HomeScreen> createState() {
+  ConsumerState<HomeScreen> createState() {
     return _HomeScreenState();
   }
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _HomeScreenState extends ConsumerState<HomeScreen> {
   int _selectedScreenIndex = 0;
   Map<Filter, bool> _selectedFilters = kInitialFilter;
   final List<CultivatedPlants> _favoritePlant = [];
@@ -74,7 +75,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final availableFilterPlants = dummyCultivatedPlants.where((plants) {
+    final meals = ref.watch(mealsProvider);
+    final availableFilterPlants = meals.where((plants) {
       if (_selectedFilters[Filter.humus]! && !plants.isHumus) {
         return false;
       }
