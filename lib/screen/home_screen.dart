@@ -1,4 +1,4 @@
-import 'package:cultivated_plants_app/model/cultivated_plants.dart';
+import 'package:cultivated_plants_app/provider/favorite_plants_provider.dart';
 import 'package:cultivated_plants_app/provider/meals_provider.dart';
 import 'package:cultivated_plants_app/screen/categories_screen.dart';
 import 'package:cultivated_plants_app/screen/filter_screen.dart';
@@ -25,7 +25,6 @@ class HomeScreen extends ConsumerStatefulWidget {
 class _HomeScreenState extends ConsumerState<HomeScreen> {
   int _selectedScreenIndex = 0;
   Map<Filter, bool> _selectedFilters = kInitialFilter;
-  final List<CultivatedPlants> _favoritePlant = [];
 
   void selectedPage(int index) {
     setState(() {
@@ -57,22 +56,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     );
   }
 
-  void _toogleFavorite(CultivatedPlants plant) {
-    final isExisting = _favoritePlant.contains(plant);
-
-    if (isExisting) {
-      setState(() {
-        _favoritePlant.remove(plant);
-      });
-      _showMessageFavorite("Successfully remove from favorite");
-    } else {
-      setState(() {
-        _favoritePlant.add(plant);
-      });
-      _showMessageFavorite("Successfully add to favorite");
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     final meals = ref.watch(mealsProvider);
@@ -90,16 +73,16 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     }).toList();
 
     Widget activeScreen = CategoriesScreen(
-      onToogleFavorite: _toogleFavorite,
       availableFilterPlants: availableFilterPlants,
     );
 
     var activePageTitle = "Categories";
 
     if (_selectedScreenIndex == 1) {
+      final favoritePlant = ref.watch(favoritePlantsProvider);
+
       activeScreen = PlantsScreen(
-        cultivatedPlants: _favoritePlant,
-        onToogleFavorite: _toogleFavorite,
+        cultivatedPlants: favoritePlant,
       );
       activePageTitle = "Your Favorites";
     }

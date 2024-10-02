@@ -1,20 +1,23 @@
 import 'package:cultivated_plants_app/model/cultivated_plants.dart';
+import 'package:cultivated_plants_app/provider/favorite_plants_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class DetailPlant extends StatelessWidget {
-  const DetailPlant({super.key, required this.plantsDetail, required this.onToogleFavorite});
+class DetailPlant extends ConsumerWidget {
+  const DetailPlant({super.key, required this.plantsDetail});
 
   final CultivatedPlants plantsDetail;
-  final void Function(CultivatedPlants plant) onToogleFavorite;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       appBar: AppBar(
         title: Text(plantsDetail.title),
         actions: [
           IconButton(
-            onPressed: () {onToogleFavorite(plantsDetail);},
+            onPressed: () {
+              ref.read(favoritePlantsProvider.notifier).toogleFavoriteStatus(plantsDetail);
+            },
             icon: const Icon(Icons.star),
           )
         ],

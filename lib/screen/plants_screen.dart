@@ -4,16 +4,15 @@ import 'package:cultivated_plants_app/widget/plants_item.dart';
 import 'package:flutter/material.dart';
 
 class PlantsScreen extends StatelessWidget {
-  const PlantsScreen({super.key, this.title, required this.cultivatedPlants, required this.onToogleFavorite});
+  const PlantsScreen({super.key, this.title, required this.cultivatedPlants});
 
   final String? title;
   final List<CultivatedPlants> cultivatedPlants;
-  final void Function(CultivatedPlants plant) onToogleFavorite;
 
   void selectedPlant(BuildContext context, CultivatedPlants plant) {
     Navigator.of(context).push(
       MaterialPageRoute(
-        builder: (ctx) => DetailPlant(plantsDetail: plant, onToogleFavorite: onToogleFavorite,),
+        builder: (ctx) => DetailPlant(plantsDetail: plant),
       ),
     );
   }
