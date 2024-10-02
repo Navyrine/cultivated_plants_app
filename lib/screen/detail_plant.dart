@@ -10,15 +10,22 @@ class DetailPlant extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final favoritePlant = ref.watch(favoritePlantsProvider);
+    final isFavorite = favoritePlant.contains(plantsDetail);
+
     return Scaffold(
       appBar: AppBar(
         title: Text(plantsDetail.title),
         actions: [
           IconButton(
             onPressed: () {
-              ref.read(favoritePlantsProvider.notifier).toogleFavoriteStatus(plantsDetail);
+              final wasAdded = ref.read(favoritePlantsProvider.notifier).toogleFavoriteStatus(plantsDetail);
+              ScaffoldMessenger.of(context).clearSnackBars();
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(content: Text(wasAdded ? "Plant added as favorite" : "Plant remove from favorite"),)
+              );
             },
-            icon: const Icon(Icons.star),
+            icon: Icon(isFavorite ? Icons.star : Icons.star_border),
           )
         ],
       ),
