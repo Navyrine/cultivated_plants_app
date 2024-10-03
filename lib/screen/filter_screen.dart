@@ -1,111 +1,93 @@
+import 'package:cultivated_plants_app/provider/filter_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-enum Filter { humus, alluvial, volcanic }
-
-class FilterScreen extends StatefulWidget {
-  const FilterScreen({super.key, required this.currentFilter});
-
-  final Map<Filter, bool> currentFilter;
+class FilterScreen extends ConsumerWidget {
+  const FilterScreen({super.key});
 
   @override
-  State<FilterScreen> createState() {
-    return _FilterScreenState();
-  }
-}
+  Widget build(BuildContext context, WidgetRef ref) {
+    final activeFilter = ref.watch(filterProvider);
 
-class _FilterScreenState extends State<FilterScreen> {
-  var _humusFilterSet = false;
-  var _alluvialFilterSet = false;
-  var _volcanicFilterSet = false;
-
-  @override
-  void initState() {
-    super.initState();
-    _humusFilterSet = widget.currentFilter[Filter.humus]!;
-    _alluvialFilterSet = widget.currentFilter[Filter.alluvial]!;
-    _volcanicFilterSet = widget.currentFilter[Filter.volcanic]!;
-  }
-
-  @override
-  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Your Filters"),
       ),
-      body: PopScope(
-        canPop: false,
-        onPopInvokedWithResult: (bool dipPop, dynamic result) {
-          if (dipPop) return;
-          Navigator.of(context).pop({
-            Filter.humus: _humusFilterSet,
-            Filter.alluvial: _alluvialFilterSet,
-            Filter.volcanic: _volcanicFilterSet
-          });
-        },
-        child: Column(
-          children: [
-            SwitchListTile(
-              value: _humusFilterSet,
-              onChanged: (isChecked) {
-                setState(() {
-                  _humusFilterSet = isChecked;
-                });
-              },
-              title: Text(
-                "Humus",
-                style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                    color: Theme.of(context).colorScheme.onBackground),
-              ),
-              subtitle: Text(
-                "Only include humus soil plants",
-                style: Theme.of(context).textTheme.labelMedium!.copyWith(
-                    color: Theme.of(context).colorScheme.onBackground),
-              ),
-              activeColor: Theme.of(context).colorScheme.tertiary,
-              contentPadding: const EdgeInsets.only(left: 34, right: 22),
+      body: Column(
+        children: [
+          SwitchListTile(
+            value: activeFilter[Filter.humus]!,
+            onChanged: (isChecked) {
+              ref
+                  .read(filterProvider.notifier)
+                  .setFilter(Filter.humus, isChecked);
+            },
+            title: Text(
+              "Humus",
+              style: Theme.of(context)
+                  .textTheme
+                  .titleLarge!
+                  .copyWith(color: Theme.of(context).colorScheme.onBackground),
             ),
-            SwitchListTile(
-              value: _alluvialFilterSet,
-              onChanged: (isChecked) {
-                setState(() {
-                  _alluvialFilterSet = isChecked;
-                });
-              },
-              title: Text(
-                "Alluvial",
-                style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                    color: Theme.of(context).colorScheme.onBackground),
-              ),
-              subtitle: Text(
-                "Only include aluvial soil plants",
-                style: Theme.of(context).textTheme.labelMedium!.copyWith(
-                    color: Theme.of(context).colorScheme.onBackground),
-              ),
-              activeColor: Theme.of(context).colorScheme.tertiary,
-              contentPadding: const EdgeInsets.only(left: 34, right: 22),
+            subtitle: Text(
+              "Only include humus soil plants",
+              style: Theme.of(context)
+                  .textTheme
+                  .labelMedium!
+                  .copyWith(color: Theme.of(context).colorScheme.onBackground),
             ),
-            SwitchListTile(
-              value: _volcanicFilterSet,
-              onChanged: (isChecked) {
-                setState(() {
-                  _volcanicFilterSet = isChecked;
-                });
-              },
-              title: Text(
-                "Volcaninc",
-                style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                    color: Theme.of(context).colorScheme.onBackground),
-              ),
-              subtitle: Text(
-                "Only include volcanic soil plants",
-                style: Theme.of(context).textTheme.labelMedium!.copyWith(
-                    color: Theme.of(context).colorScheme.onBackground),
-              ),
-              activeColor: Theme.of(context).colorScheme.tertiary,
-              contentPadding: const EdgeInsets.only(left: 34, right: 22),
+            activeColor: Theme.of(context).colorScheme.tertiary,
+            contentPadding: const EdgeInsets.only(left: 34, right: 22),
+          ),
+          SwitchListTile(
+            value: activeFilter[Filter.alluvial]!,
+            onChanged: (isChecked) {
+              ref
+                  .read(filterProvider.notifier)
+                  .setFilter(Filter.alluvial, isChecked);
+            },
+            title: Text(
+              "Alluvial",
+              style: Theme.of(context)
+                  .textTheme
+                  .titleLarge!
+                  .copyWith(color: Theme.of(context).colorScheme.onBackground),
             ),
-          ],
-        ),
+            subtitle: Text(
+              "Only include aluvial soil plants",
+              style: Theme.of(context)
+                  .textTheme
+                  .labelMedium!
+                  .copyWith(color: Theme.of(context).colorScheme.onBackground),
+            ),
+            activeColor: Theme.of(context).colorScheme.tertiary,
+            contentPadding: const EdgeInsets.only(left: 34, right: 22),
+          ),
+          SwitchListTile(
+            value: activeFilter[Filter.volcanic]!,
+            onChanged: (isChecked) {
+              ref
+                  .read(filterProvider.notifier)
+                  .setFilter(Filter.volcanic, isChecked);
+            },
+            title: Text(
+              "Volcaninc",
+              style: Theme.of(context)
+                  .textTheme
+                  .titleLarge!
+                  .copyWith(color: Theme.of(context).colorScheme.onBackground),
+            ),
+            subtitle: Text(
+              "Only include volcanic soil plants",
+              style: Theme.of(context)
+                  .textTheme
+                  .labelMedium!
+                  .copyWith(color: Theme.of(context).colorScheme.onBackground),
+            ),
+            activeColor: Theme.of(context).colorScheme.tertiary,
+            contentPadding: const EdgeInsets.only(left: 34, right: 22),
+          ),
+        ],
       ),
     );
   }

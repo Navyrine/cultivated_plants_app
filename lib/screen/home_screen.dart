@@ -1,11 +1,11 @@
 import 'package:cultivated_plants_app/provider/favorite_plants_provider.dart';
-import 'package:cultivated_plants_app/provider/meals_provider.dart';
 import 'package:cultivated_plants_app/screen/categories_screen.dart';
 import 'package:cultivated_plants_app/screen/filter_screen.dart';
 import 'package:cultivated_plants_app/screen/plants_screen.dart';
 import 'package:cultivated_plants_app/widget/main_drawer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:cultivated_plants_app/provider/filter_provider.dart';
 
 const kInitialFilter = {
   Filter.humus: false,
@@ -24,7 +24,6 @@ class HomeScreen extends ConsumerStatefulWidget {
 
 class _HomeScreenState extends ConsumerState<HomeScreen> {
   int _selectedScreenIndex = 0;
-  Map<Filter, bool> _selectedFilters = kInitialFilter;
 
   void selectedPage(int index) {
     setState(() {
@@ -35,42 +34,18 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   void _selectedFilterScreen(String identifier) async {
     Navigator.of(context).pop();
     if (identifier == "filters") {
-      final result = await Navigator.of(context).push<Map<Filter, bool>>(
+      await Navigator.of(context).push<Map<Filter, bool>>(
         MaterialPageRoute(
-          builder: (ctx) => FilterScreen(currentFilter: _selectedFilters),
+          builder: (ctx) => const FilterScreen(),
         ),
       );
-      setState(() {
-        _selectedFilters = result ?? kInitialFilter;
-      });
     }
     
   }
 
-  void _showMessageFavorite(String text) {
-    ScaffoldMessenger.of(context).clearSnackBars();
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(text),
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
-    final meals = ref.watch(mealsProvider);
-    final availableFilterPlants = meals.where((plants) {
-      if (_selectedFilters[Filter.humus]! && !plants.isHumus) {
-        return false;
-      }
-      if (_selectedFilters[Filter.alluvial]! && !plants.isAlluvial) {
-        return false;
-      }
-      if (_selectedFilters[Filter.volcanic]! && !plants.isVolcanic) {
-        return false;
-      }
-      return true;
-    }).toList();
+    final availableFilterPlants = ref.watch(filteredPlantsProvider);
 
     Widget activeScreen = CategoriesScreen(
       availableFilterPlants: availableFilterPlants,
